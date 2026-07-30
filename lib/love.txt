@@ -1,0 +1,354 @@
+💖 Project Name
+
+Project Codename: Secret Message
+
+Sub Title:
+
+"Some feelings are better experienced than read."
+
+⏳ Total Experience
+
+২-৩ মিনিট
+
+এমনভাবে ডিজাইন করবে যাতে সে শেষ পর্যন্ত না দেখে বের হতে না পারে।
+
+📱 Screen 1 - Splash
+
+Black Background
+
+একটা ছোট Logo
+
+Initializing...
+
+Loading Animation
+
+Loading Memories...
+Loading Emotions...
+Preparing Something Special...
+
+Loading শেষ হবে
+
+Completed ✓
+
+Button
+
+Continue →
+Screen 2
+⚠️ Private File
+
+Access Level:
+Only For
+(তার নাম)
+
+Button
+
+Unlock
+
+Unlock করলে ফোন একটু Vibrate করবে।
+
+Screen 3
+
+পুরোটা Terminal Style
+
+Typing Animation
+
+Connecting...
+
+Searching...
+
+Searching...
+
+Searching...
+
+Found 1 Person.
+
+তারপর
+
+Name:
+XXXXXXXX
+
+Status:
+Very Special ❤️
+
+Button
+
+Continue
+Screen 4
+
+Background
+
+Stars Animation
+
+Typing
+
+I never thought
+I would build
+an app...
+
+Just to tell
+someone
+how important
+they are.
+Screen 5
+
+Heart তৈরি হবে ছোট ছোট Particle দিয়ে।
+
+তারপর
+
+You probably
+already know...
+
+But...
+
+I wanted
+to say it
+differently.
+Screen 6
+
+একটা ছোট Quiz
+
+Question 1
+
+Who is the most amazing person?
+
+○ Me
+
+○ Someone Else
+
+যদি
+
+Someone Else চাপেও
+
+Toast
+
+Wrong Answer 😂
+
+আবার একই প্রশ্ন।
+
+শেষ পর্যন্ত
+
+Me ❤️
+Screen 7
+
+Confetti
+
+তারপর
+
+One More Thing...
+
+Button
+
+Open
+Screen 8
+
+Typing Animation
+
+You make
+ordinary days
+
+feel
+extraordinary.
+
+Pause
+
+You make
+me smile
+without trying.
+
+Pause
+
+Thank you.
+Screen 9
+
+Gallery
+
+Carousel
+
+তোমাদের ছবি থাকলে দেখাবে।
+
+না থাকলে
+
+Beautiful Gradient
+
+Stars
+
+Floating Hearts
+
+Screen 10
+
+Mini Game
+
+Heart Collect
+
+১০টা Heart ধরলে
+
+Unlocked ❤️
+Screen 11
+
+সব Screen Dark
+
+একটা Heart Beat করবে।
+
+Background Music
+
+Slow Piano
+
+তারপর
+
+There is
+only one thing
+
+left
+to say...
+Final Screen
+
+Heart খুলে যাবে।
+
+Typewriter শুরু হবে।
+
+Dear XXXXX,
+
+Thank you
+for being
+part of my life.
+
+I don't know
+what tomorrow
+holds.
+
+But today,
+
+I wanted you
+to know
+
+that
+
+you are
+very special
+to me.
+
+❤️
+
+Pause
+
+তারপর
+
+No pressure.
+
+No expectations.
+
+I just wanted
+to be honest
+about
+my feelings.
+
+And this little app
+is my way
+of saying that.
+
+😊
+
+শেষে
+
+Thank You
+For Opening
+My Heart.
+
+❤️
+Bottom Button
+Close
+🎨 UI Theme
+Black Background
+Purple Gradient
+Pink Accent
+Glassmorphism Card
+White Text
+Slow Fade Animation
+✨ Animations
+Splash Fade
+Typewriter
+Lottie Heart
+Confetti
+Floating Hearts
+Glow Effect
+Particle Animation
+Hero Animation
+Fireworks
+Smooth Page Transition
+📦 Flutter Packages
+animate_do
+flutter_animate
+lottie
+animated_text_kit
+confetti
+flutter_screenutil
+google_fonts
+flutter_svg
+audioplayers
+rive
+📂 Folder Structure
+lib/
+
+main.dart
+
+core/
+
+theme/
+
+utils/
+
+screens/
+
+ splash/
+
+ intro/
+
+ terminal/
+
+ heart/
+
+ gallery/
+
+ quiz/
+
+ game/
+
+ final/
+
+widgets/
+
+models/
+
+assets/
+
+lottie/
+
+images/
+
+music/
+🌐 Deployment
+
+অ্যাপটাকে Flutter Web হিসেবে Build করো:
+
+flutter build web
+
+তারপর Deploy করো:
+
+Firebase Hosting
+GitHub Pages
+Netlify
+Vercel
+
+তারপর শুধু একটি লিংক পাঠিয়ে দাও, যেমন:
+
+https://your-surprise.web.app
+
+সে লিংকে ঢুকলেই পুরো অভিজ্ঞতাটা দেখতে পাবে।
+
+🔥 আরও ইউনিক একটি আইডিয়া (আমার সবচেয়ে পছন্দ)
+
+পুরো অ্যাপটাকে "Mission: Unlock My Heart ❤️" নামে বানাও।
+
+সে একটি "সিক্রেট ফাইল" খুলতে এসেছে—এমন অনুভূতি হবে। প্রতিটি ধাপে ছোট ছোট অ্যানিমেশন, টাইপিং এফেক্ট, আর মজার ইন্টারঅ্যাকশন থাকবে। শেষ পর্যন্ত সে বুঝতে পারবে, আসল "সিক্রেট ফাইল" ছিল তোমার অনুভূতির কথা। এতে পুরো অভিজ্ঞতাটা গল্পের মতো লাগবে, শুধুমাত্র একটি মেসেজ পড়ার মতো নয়। আর শেষের বার্তায় অনুভূতি জানিয়ে দাও, কিন্তু এমনভাবে যেন তার ওপর কোনো সিদ্ধান্ত নেওয়ার চাপ না থাকে। এতে সারপ্রাইজটা আরও আন্তরিক ও স্মরণীয় হবে।
+
+

@@ -85486,7 +85486,7 @@ q=n.a.c
 p=A.bL(30)
 p=A.ky(m,m,m,m,m,m,10,m,m,m,m,m,B.at,A.Z(B.c.aC(127.5),B.m.m()>>>16&255,B.m.m()>>>8&255,B.m.m()&255),new A.c8(p,B.u),m,m,m,m,m)
 o=A.bL(30)
-return new A.bD(B.hC,A.bu(A.b([l,B.A2,k,B.ca,j,B.RF,i,B.RE,A.atS(A.jp(A.oL(A.th(A.bG(m,A.bz(A.b([A.a3("Continue",m,m,m,A.av().$3$color$fontSize$fontWeight(B.e,17,B.b0),m,m,m),B.bV,B.i_],h),B.n,B.o,B.au,0),B.q,m,m,m,m,m,m,B.Gv,m,m,m),new A.bp(m,m,m,o,m,B.bQ,B.T)),q,p),!s,m),B.a4,B.dL,r)],h),B.n,B.b8,B.p),m)}}
+return new A.bD(B.hC,A.bu(A.b([l,B.A2,k,B.ca,j,B.RF,i,B.RE,A.atS(A.jp(A.oL(A.th(A.bG(m,A.bz(A.b([A.a3("Continue to App \ud83d\ude80",m,m,m,A.av().$3$color$fontSize$fontWeight(B.e,17,B.b0),m,m,m),B.bV,B.i_],h),B.n,B.o,B.au,0),B.q,m,m,m,m,m,m,B.Gv,m,m,m),new A.bp(m,m,m,o,m,B.bQ,B.T)),q,p),!s,m),B.a4,B.dL,r)],h),B.n,B.b8,B.p),m)}}
 A.apY.prototype={
 $1(a){var s=this.a
 if(s.c==null)return
@@ -86072,11 +86072,8 @@ s.x=0
 s.az()},
 l(){this.d.l()
 this.av()},
-G(a){var s,r,q=null,p=this.gacN(),o=this.ga6K(),n=t.p
-p=A.aAd(A.b([new A.C8(p,q),new A.BD(p,q),new A.Cw(o,q)],n),this.d,q,B.N2)
-s=A.OQ(q,q,A.Z(102,B.l.m()>>>16&255,B.l.m()>>>8&255,B.l.m()&255),q,q,q,q,q,q,q,q,q,B.oc,q,new A.c8(A.bL(20),new A.aL(A.Z(B.c.aC(127.5),B.z.m()>>>16&255,B.z.m()>>>8&255,B.z.m()&255),1,B.y,-1)),q,q,q,q,q)
-r=A.a3("Skip to Main App \ud83d\ude80",q,q,q,A.av().$3$color$fontSize$fontWeight(B.e,12,B.x),q,q,q)
-return A.avi(q,A.i1(B.bA,A.b([p,A.n5(!0,new A.eG(B.Bj,q,q,new A.bD(B.dM,new A.Cy(!0,o,q,q,q,s,B.q,q,!1,q,!0,q,new A.Ww(r,B.HE,s,q,q),q),q),q),!0)],n),B.I,B.bJ))}}
+G(a){var s=null,r=this.ga6K(),q=t.p,p=A.aAd(A.b([new A.C8(r,s),new A.BD(this.gacN(),s),new A.Cw(r,s)],q),this.d,s,B.N2),o=A.OQ(s,s,A.Z(102,B.l.m()>>>16&255,B.l.m()>>>8&255,B.l.m()&255),s,s,s,s,s,s,s,s,s,B.oc,s,new A.c8(A.bL(20),new A.aL(A.Z(B.c.aC(127.5),B.z.m()>>>16&255,B.z.m()>>>8&255,B.z.m()&255),1,B.y,-1)),s,s,s,s,s),n=A.a3("Continue to App \ud83d\ude80",s,s,s,A.av().$3$color$fontSize$fontWeight(B.e,12,B.x),s,s,s)
+return A.avi(s,A.i1(B.bA,A.b([p,A.n5(!0,new A.eG(B.Bj,s,s,new A.bD(B.dM,new A.Cy(!0,r,s,s,s,o,B.q,s,!1,s,!0,s,new A.Ww(n,B.HE,o,s,s),s),s),s),!0)],q),B.I,B.bJ))}}
 A.yV.prototype={
 a7(){return new A.Sj()}}
 A.Sj.prototype={

@@ -267,7 +267,7 @@ class _TerminalScreenState extends State<TerminalScreen> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          'Continue',
+                          'Enter Main App 🚀',
                           style: GoogleFonts.poppins(
                             fontSize: 17,
                             fontWeight: FontWeight.bold,

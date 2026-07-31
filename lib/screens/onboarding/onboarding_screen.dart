@@ -45,13 +45,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             controller: _pageController,
             physics: const NeverScrollableScrollPhysics(),
             children: [
-              SplashScreen(onContinue: _nextStep),
+              // Splash Screen button directly enters the main app
+              SplashScreen(onContinue: _finishOnboarding),
               SecurityScreen(onUnlock: _nextStep),
               TerminalScreen(onContinue: _finishOnboarding),
             ],
           ),
 
-          // Top Right Skip to Main App Button
+          // Top Right Continue to App Button
           SafeArea(
             child: Align(
               alignment: Alignment.topRight,
@@ -73,7 +74,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   icon: const Icon(Icons.rocket_launch_rounded,
                       color: LoveTheme.secondaryRose, size: 16),
                   label: Text(
-                    'Skip to Main App 🚀',
+                    'Continue to App 🚀',
                     style: GoogleFonts.poppins(
                       fontSize: 12,
                       fontWeight: FontWeight.bold,

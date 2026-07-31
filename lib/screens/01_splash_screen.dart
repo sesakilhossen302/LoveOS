@@ -193,7 +193,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          'Continue',
+                          'Continue to App 🚀',
                           style: GoogleFonts.poppins(
                             fontSize: 17,
                             fontWeight: FontWeight.w600,

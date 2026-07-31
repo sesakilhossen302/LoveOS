@@ -14,6 +14,7 @@ import '06_quiz_screen.dart';
 import '07_pre_reveal_screen.dart';
 import '08_poetry_screen.dart';
 import '09_gallery_screen.dart';
+import '09_mood_selector_screen.dart';
 import '10_mini_game_screen.dart';
 import '11_heartbeat_suspense_screen.dart';
 import '12_final_letter_screen.dart';
@@ -59,16 +60,16 @@ class _LoveOSHomeState extends State<LoveOSHome> {
   Widget build(BuildContext context) {
     final appState = Provider.of<LoveAppState>(context);
     final currentStep = appState.currentStep;
-    final totalSteps = 12;
+    final totalSteps = 13;
 
     return Scaffold(
       body: StarfieldBackground(
-        showHearts: currentStep != 10 && currentStep != 2,
+        showHearts: currentStep != 11 && currentStep != 2,
         child: SafeArea(
           child: Column(
             children: [
               // Top Bar Navigation Indicator (Visible after splash)
-              if (currentStep > 0 && currentStep < 11)
+              if (currentStep > 0 && currentStep < 12)
                 Padding(
                   padding: const EdgeInsets.symmetric(
                       horizontal: 20.0, vertical: 12.0),
@@ -148,6 +149,7 @@ class _LoveOSHomeState extends State<LoveOSHome> {
                     PreRevealScreen(onOpen: _nextPage),
                     PoetryScreen(onContinue: _nextPage),
                     GalleryScreen(onContinue: _nextPage),
+                    MoodSelectorScreen(onContinue: _nextPage),
                     MiniGameScreen(onGameComplete: _nextPage),
                     HeartbeatSuspenseScreen(onRevealLetter: _nextPage),
                     FinalLetterScreen(onRestart: _resetToStart),

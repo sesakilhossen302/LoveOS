@@ -85,20 +85,88 @@ class HomeTab extends StatelessWidget {
             ],
           ).animate().fadeIn().slideY(begin: -0.2, end: 0),
 
-          const SizedBox(height: 24),
+          const SizedBox(height: 20),
+
+          // Live Broadcast Message Card From Sakil
+          GlassCard(
+            padding: const EdgeInsets.all(20),
+            borderRadius: 24,
+            borderColor: LoveTheme.primaryNeonPink,
+            gradientColors: [
+              LoveTheme.primaryNeonPink.withOpacity(0.2),
+              LoveTheme.secondaryRose.withOpacity(0.08),
+            ],
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: const BoxDecoration(
+                        color: LoveTheme.primaryNeonPink,
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(Icons.mark_chat_unread_rounded,
+                          color: Colors.white, size: 18),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'MESSAGE FROM SAKIL 💌',
+                            style: GoogleFonts.firaCode(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: LoveTheme.secondaryRose,
+                              letterSpacing: 1.2,
+                            ),
+                          ),
+                          Text(
+                            'Live Note',
+                            style: GoogleFonts.poppins(
+                              fontSize: 10,
+                              color: Colors.white54,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const Icon(Icons.favorite, color: LoveTheme.primaryNeonPink, size: 20)
+                        .animate(onPlay: (controller) => controller.repeat(reverse: true))
+                        .scale(duration: 800.ms, begin: const Offset(0.9, 0.9), end: const Offset(1.2, 1.2)),
+                  ],
+                ),
+                const SizedBox(height: 14),
+                Text(
+                  appState.adminBroadcastMessage,
+                  style: GoogleFonts.poppins(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
+                    height: 1.4,
+                  ),
+                ),
+              ],
+            ),
+          ).animate().fadeIn(delay: 100.ms).slideY(begin: -0.1, end: 0),
+
+          const SizedBox(height: 20),
 
           // Live Days Together Card
           GlassCard(
             padding: const EdgeInsets.all(20),
             borderRadius: 24,
-            borderColor: LoveTheme.primaryNeonPink,
+            borderColor: LoveTheme.cardBorderGlass,
             child: Column(
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Icon(Icons.favorite_rounded,
-                        color: LoveTheme.primaryNeonPink, size: 20),
+                        color: LoveTheme.primaryNeonPink, size: 18),
                     const SizedBox(width: 8),
                     Text(
                       'TOGETHER FOR',

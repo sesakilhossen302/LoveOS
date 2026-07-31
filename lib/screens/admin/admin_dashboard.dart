@@ -19,6 +19,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
   late TextEditingController _nameController;
   late TextEditingController _emailController;
   late TextEditingController _letterController;
+  late TextEditingController _broadcastController;
   DateTime? _selectedDate;
   bool _isAuthenticated = false;
   String? _pinError;
@@ -30,6 +31,8 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
     _nameController = TextEditingController(text: appState.herName);
     _emailController = TextEditingController(text: appState.herEmail);
     _letterController = TextEditingController(text: appState.customLetterText);
+    _broadcastController =
+        TextEditingController(text: appState.adminBroadcastMessage);
     _selectedDate = appState.startDate;
     _isAuthenticated = appState.isAdminAuthenticated;
   }
@@ -40,6 +43,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
     _nameController.dispose();
     _emailController.dispose();
     _letterController.dispose();
+    _broadcastController.dispose();
     super.dispose();
   }
 
@@ -57,6 +61,21 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
     }
   }
 
+  void _sendLiveMessage() {
+    final appState = Provider.of<LoveAppState>(context, listen: false);
+    appState.sendBroadcastMessage(_broadcastController.text);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          'Live message broadcasted to her Home screen! 💌',
+          style: GoogleFonts.poppins(color: Colors.white),
+        ),
+        backgroundColor: LoveTheme.primaryNeonPink,
+      ),
+    );
+  }
+
   void _saveSettings() {
     final appState = Provider.of<LoveAppState>(context, listen: false);
     appState.updateProfile(
@@ -65,11 +84,12 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
       startDate: _selectedDate ?? appState.startDate,
       letterText: _letterController.text,
     );
+    appState.sendBroadcastMessage(_broadcastController.text);
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          'Settings updated successfully! ❤️',
+          'Settings & Live Message updated successfully! ❤️',
           style: GoogleFonts.poppins(color: Colors.white),
         ),
         backgroundColor: Colors.green,
@@ -172,6 +192,68 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          // Live Message Broadcast Box
+          GlassCard(
+            padding: const EdgeInsets.all(20),
+            borderColor: LoveTheme.primaryNeonPink,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    const Icon(Icons.send_rounded,
+                        color: LoveTheme.primaryNeonPink, size: 22),
+                    const SizedBox(width: 10),
+                    Text(
+                      'Broadcast Live Message To Her App 💌',
+                      style: GoogleFonts.poppins(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: LoveTheme.secondaryRose,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Type a message to instantly display on her Home screen:',
+                  style: GoogleFonts.poppins(fontSize: 12, color: Colors.white60),
+                ),
+                const SizedBox(height: 12),
+                TextField(
+                  controller: _broadcastController,
+                  maxLines: 2,
+                  style: GoogleFonts.poppins(color: Colors.white),
+                  decoration: InputDecoration(
+                    hintText: "Type message to send her...",
+                    hintStyle: const TextStyle(color: Colors.white38),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                ElevatedButton.icon(
+                  onPressed: _sendLiveMessage,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: LoveTheme.primaryNeonPink,
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                  ),
+                  icon: const Icon(Icons.send_rounded, color: Colors.white, size: 18),
+                  label: Text(
+                    'Broadcast Message Now 🚀',
+                    style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.bold, color: Colors.white),
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          const SizedBox(height: 20),
+
+          // Girlfriend Profile & Letter Settings Box
           GlassCard(
             padding: const EdgeInsets.all(20),
             child: Column(

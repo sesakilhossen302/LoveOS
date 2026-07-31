@@ -8,6 +8,10 @@ class LoveAppState extends ChangeNotifier {
   String _profilePicUrl = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80";
   DateTime _startDate = DateTime.now().subtract(const Duration(days: 365));
 
+  // Live Admin Broadcast Message (Sent by Sakil from Dashboard!)
+  String _adminBroadcastMessage = "I am thinking of you right now, my love! Hope you have an amazing day ❤️";
+  DateTime _broadcastTimestamp = DateTime.now();
+
   // Customizable Custom Letter Content
   String _customLetterText =
       "Thank you for being a part of my life.\nI don't know what tomorrow holds...\nBut today, I wanted you to know that you are very special to me. ❤️\n\nNo pressure. No expectations.\nI just wanted to be honest about my feelings.\nAnd this little app is my way of saying that. 😊";
@@ -39,6 +43,8 @@ class LoveAppState extends ChangeNotifier {
   String get herEmail => _herEmail;
   String get profilePicUrl => _profilePicUrl;
   DateTime get startDate => _startDate;
+  String get adminBroadcastMessage => _adminBroadcastMessage;
+  DateTime get broadcastTimestamp => _broadcastTimestamp;
   String get customLetterText => _customLetterText;
 
   bool get isOnboardingCompleted => _isOnboardingCompleted;
@@ -49,6 +55,15 @@ class LoveAppState extends ChangeNotifier {
   bool get isAdminAuthenticated => _isAdminAuthenticated;
 
   Duration get relationshipDuration => DateTime.now().difference(_startDate);
+
+  // Broadcast Message Sender (From Admin Dashboard!)
+  void sendBroadcastMessage(String message) {
+    if (message.trim().isNotEmpty) {
+      _adminBroadcastMessage = message.trim();
+      _broadcastTimestamp = DateTime.now();
+      notifyListeners();
+    }
+  }
 
   // Profile Setters (Used by Admin Dashboard!)
   void updateProfile({

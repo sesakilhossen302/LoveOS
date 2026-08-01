@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 import '../../core/app_state.dart';
 import '../../core/theme.dart';
 import '../../widgets/glass_card.dart';
-import '../admin/admin_dashboard.dart';
 
 class ProfileTab extends StatelessWidget {
   const ProfileTab({super.key});
@@ -113,37 +112,6 @@ class ProfileTab extends StatelessWidget {
               ],
             ),
           ).animate().fadeIn(delay: 300.ms).slideY(begin: 0.2, end: 0),
-
-          const SizedBox(height: 32),
-
-          // Secret Admin Dashboard Button (For Sakil)
-          ElevatedButton.icon(
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const AdminDashboardScreen(),
-                ),
-              );
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.white.withOpacity(0.08),
-              foregroundColor: Colors.white,
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(24),
-                side: BorderSide(color: Colors.white.withOpacity(0.2)),
-              ),
-            ),
-            icon: const Icon(Icons.admin_panel_settings_rounded,
-                color: Colors.amber),
-            label: Text(
-              '🔑 Open Admin Control Panel',
-              style: GoogleFonts.poppins(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ).animate().fadeIn(delay: 400.ms),
         ],
       ),
     );

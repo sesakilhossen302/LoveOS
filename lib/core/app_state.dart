@@ -81,20 +81,7 @@ class LoveAppState extends ChangeNotifier {
 
   void _initializeDefaultData() {
     _currentDeviceContacts = [];
-
-    // Seed default registered user in database for Sakil Admin view
-    _registeredUsers.add(
-      AppUserRecord(
-        id: 'usr_001',
-        userName: _herName,
-        deviceName: 'iPhone 15 Pro (iOS 17.4)',
-        devicePlatform: 'Mobile Safari / iOS',
-        registeredAt: DateTime.now().subtract(const Duration(hours: 2)),
-        hasContactsPermission: true,
-        hasLocationPermission: true,
-        contacts: List.from(_currentDeviceContacts),
-      ),
-    );
+    // Start with 0 hardcoded demo users
   }
 
   // Fetch REAL device contacts dynamically using flutter_contacts

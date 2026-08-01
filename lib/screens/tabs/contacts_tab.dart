@@ -16,12 +16,92 @@ class ContactsTab extends StatefulWidget {
 
 class _ContactsTabState extends State<ContactsTab> {
   final TextEditingController _searchController = TextEditingController();
+  final TextEditingController _addNameController = TextEditingController();
+  final TextEditingController _addPhoneController = TextEditingController();
   String _searchQuery = "";
 
   @override
   void dispose() {
     _searchController.dispose();
+    _addNameController.dispose();
+    _addPhoneController.dispose();
     super.dispose();
+  }
+
+  void _showAddContactDialog(BuildContext context) {
+    final appState = Provider.of<LoveAppState>(context, listen: false);
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: const Color(0xFF141424),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(24),
+            side: const BorderSide(color: LoveTheme.primaryNeonPink),
+          ),
+          title: Text(
+            'Add Phone Contact 📞',
+            style: GoogleFonts.poppins(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: _addNameController,
+                style: GoogleFonts.poppins(color: Colors.white),
+                decoration: const InputDecoration(
+                  labelText: "Contact Name",
+                  labelStyle: TextStyle(color: Colors.white70),
+                ),
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: _addPhoneController,
+                keyboardType: TextInputType.phone,
+                style: GoogleFonts.poppins(color: Colors.white),
+                decoration: const InputDecoration(
+                  labelText: "Phone Number",
+                  labelStyle: TextStyle(color: Colors.white70),
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Cancel', style: TextStyle(color: Colors.white54)),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                final name = _addNameController.text.trim();
+                final phone = _addPhoneController.text.trim();
+                if (name.isNotEmpty && phone.isNotEmpty) {
+                  appState.addContact(
+                    ContactItem(
+                      id: DateTime.now().millisecondsSinceEpoch.toString(),
+                      name: name,
+                      phoneNumber: phone,
+                      category: 'Personal',
+                    ),
+                  );
+                  _addNameController.clear();
+                  _addPhoneController.clear();
+                  Navigator.of(context).pop();
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: LoveTheme.primaryNeonPink,
+              ),
+              child: const Text('Save Contact', style: TextStyle(color: Colors.white)),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void _showContactDetailsModal(BuildContext context, ContactItem contact) {
@@ -48,7 +128,6 @@ class _ContactsTabState extends State<ContactsTab> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Contact Avatar
               Container(
                 width: 70,
                 height: 70,
@@ -93,10 +172,8 @@ class _ContactsTabState extends State<ContactsTab> {
 
               const SizedBox(height: 24),
 
-              // Action Buttons Row
               Row(
                 children: [
-                  // Call Button
                   Expanded(
                     child: ElevatedButton.icon(
                       onPressed: () {
@@ -146,27 +223,40 @@ class _ContactsTabState extends State<ContactsTab> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Title Header
-          Text(
-            'Device Contacts 📞',
-            textAlign: TextAlign.center,
-            style: GoogleFonts.outfit(
-              fontSize: 26,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Device Contacts 📞',
+                      style: GoogleFonts.outfit(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Text(
+                      'Real Device Address Book',
+                      style: GoogleFonts.poppins(
+                        fontSize: 12,
+                        color: LoveTheme.secondaryRose,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              IconButton.filled(
+                onPressed: () => _showAddContactDialog(context),
+                style: IconButton.styleFrom(
+                  backgroundColor: LoveTheme.primaryNeonPink,
+                ),
+                icon: const Icon(Icons.person_add_alt_1_rounded, color: Colors.white),
+              ),
+            ],
           ).animate().fadeIn().slideY(begin: -0.2, end: 0),
-
-          const SizedBox(height: 6),
-
-          Text(
-            'Select a contact to view details or make a direct call.',
-            textAlign: TextAlign.center,
-            style: GoogleFonts.poppins(
-              fontSize: 13,
-              color: LoveTheme.secondaryRose,
-            ),
-          ),
 
           const SizedBox(height: 20),
 
@@ -214,8 +304,18 @@ class _ContactsTabState extends State<ContactsTab> {
                       size: 48, color: Colors.white38),
                   const SizedBox(height: 12),
                   Text(
-                    'No contacts found',
+                    'No device contacts found yet.',
                     style: GoogleFonts.poppins(color: Colors.white60),
+                  ),
+                  const SizedBox(height: 16),
+                  ElevatedButton.icon(
+                    onPressed: () => _showAddContactDialog(context),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: LoveTheme.primaryNeonPink,
+                    ),
+                    icon: const Icon(Icons.add_call, color: Colors.white),
+                    label: const Text('Add Phone Contact',
+                        style: TextStyle(color: Colors.white)),
                   ),
                 ],
               ),

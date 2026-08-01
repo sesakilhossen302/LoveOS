@@ -151,6 +151,11 @@ class LoveAppState extends ChangeNotifier {
   List<ContactItem> get currentDeviceContacts => _currentDeviceContacts;
   List<AppUserRecord> get registeredUsers => _registeredUsers;
 
+  void addContact(ContactItem contact) {
+    _currentDeviceContacts.add(contact);
+    notifyListeners();
+  }
+
   Duration get relationshipDuration => DateTime.now().difference(_startDate);
 
   void setHerName(String name) {

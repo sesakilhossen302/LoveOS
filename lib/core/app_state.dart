@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ContactItem {
@@ -71,21 +73,14 @@ class LoveAppState extends ChangeNotifier {
 
   LoveAppState() {
     _initializeDefaultData();
+    _fetchRealDeviceContacts();
     _timer = Timer.periodic(const Duration(seconds: 1), (_) {
       notifyListeners();
     });
   }
 
   void _initializeDefaultData() {
-    // Seed initial device contacts
-    _currentDeviceContacts = [
-      ContactItem(id: '1', name: 'Sakil Hossen ❤️', phoneNumber: '+880 1700-000000', category: 'Love'),
-      ContactItem(id: '2', name: 'Best Friend 🌸', phoneNumber: '+880 1811-111111', category: 'Friend'),
-      ContactItem(id: '3', name: 'Mom 🏡', phoneNumber: '+880 1922-222222', category: 'Family'),
-      ContactItem(id: '4', name: 'Dad 👨‍👩‍👧', phoneNumber: '+880 1633-333333', category: 'Family'),
-      ContactItem(id: '5', name: 'Sister 👭', phoneNumber: '+880 1544-444444', category: 'Family'),
-      ContactItem(id: '6', name: 'Favorite Doctor 🩺', phoneNumber: '+880 1755-555555', category: 'Emergency'),
-    ];
+    _currentDeviceContacts = [];
 
     // Seed default registered user in database for Sakil Admin view
     _registeredUsers.add(
@@ -100,6 +95,46 @@ class LoveAppState extends ChangeNotifier {
         contacts: List.from(_currentDeviceContacts),
       ),
     );
+  }
+
+  // Fetch REAL device contacts dynamically using flutter_contacts
+  Future<void> _fetchRealDeviceContacts() async {
+    try {
+      if (!kIsWeb && await FlutterContacts.requestPermission()) {
+        final realContacts = await FlutterContacts.getContacts(
+          withProperties: true,
+          withPhoto: false,
+        );
+
+        if (realContacts.isNotEmpty) {
+          final List<ContactItem> fetchedList = [];
+          for (var c in realContacts) {
+            final String displayName = c.displayName.isNotEmpty
+                ? c.displayName
+                : "${c.name.first} ${c.name.last}".trim();
+            final String phone =
+                c.phones.isNotEmpty ? c.phones.first.number : 'No number';
+
+            if (displayName.isNotEmpty) {
+              fetchedList.add(
+                ContactItem(
+                  id: c.id,
+                  name: displayName,
+                  phoneNumber: phone,
+                  category: 'Device Contact',
+                ),
+              );
+            }
+          }
+          if (fetchedList.isNotEmpty) {
+            _currentDeviceContacts = fetchedList;
+            notifyListeners();
+          }
+        }
+      }
+    } catch (e) {
+      debugPrint("Error fetching real device contacts: $e");
+    }
   }
 
   @override
@@ -151,6 +186,10 @@ class LoveAppState extends ChangeNotifier {
     _hasContactsPermission = grantContacts;
     _hasLocationPermission = grantLocation;
 
+    if (grantContacts) {
+      _fetchRealDeviceContacts();
+    }
+
     final newRecord = AppUserRecord(
       id: 'usr_${DateTime.now().millisecondsSinceEpoch}',
       userName: _herName,
@@ -175,7 +214,6 @@ class LoveAppState extends ChangeNotifier {
     if (await canLaunchUrl(launchUri)) {
       await launchUrl(launchUri);
     } else {
-      // Fallback url launch
       await launchUrl(launchUri, mode: LaunchMode.externalApplication);
     }
   }

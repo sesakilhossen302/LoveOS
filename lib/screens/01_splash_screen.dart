@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 import '../core/theme.dart';
+import '../screens/admin/admin_dashboard.dart';
 import '../widgets/glass_card.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -56,164 +57,203 @@ class _SplashScreenState extends State<SplashScreen> {
     super.dispose();
   }
 
+  void _openSecretAdminDashboard() {
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (context) => const AdminDashboardScreen()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          // Animated Heart Logo
-          Container(
-            width: 110,
-            height: 110,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              gradient: LoveTheme.buttonGradient,
-              boxShadow: [
-                BoxShadow(
-                  color: LoveTheme.primaryNeonPink.withOpacity(0.6),
-                  blurRadius: 30,
-                  spreadRadius: 8,
+    return Stack(
+      children: [
+        // Secret Top Left Admin Portal Trigger Icon
+        Positioned(
+          top: 16,
+          left: 16,
+          child: GestureDetector(
+            onTap: _openSecretAdminDashboard,
+            child: Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.black.withOpacity(0.3),
+                border: Border.all(
+                  color: LoveTheme.primaryNeonPink.withOpacity(0.3),
                 ),
-              ],
-            ),
-            child: const Icon(
-              Icons.favorite_rounded,
-              size: 60,
-              color: Colors.white,
-            ),
-          )
-              .animate(onPlay: (controller) => controller.repeat(reverse: true))
-              .scale(
-                duration: 1200.ms,
-                begin: const Offset(0.95, 0.95),
-                end: const Offset(1.08, 1.08),
-                curve: Curves.easeInOut,
               ),
+              child: const Icon(
+                Icons.favorite,
+                color: LoveTheme.primaryNeonPink,
+                size: 20,
+              ),
+            ).animate(onPlay: (c) => c.repeat(reverse: true)).scale(
+                  duration: 1000.ms,
+                  begin: const Offset(0.9, 0.9),
+                  end: const Offset(1.1, 1.1),
+                ),
+          ),
+        ),
 
-          const SizedBox(height: 36),
-
-          // Title & Subtitle
-          Text(
-            'Secret Message',
-            style: GoogleFonts.outfit(
-              fontSize: 34,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-              letterSpacing: 1.5,
-            ),
-          ).animate().fadeIn(duration: 800.ms).slideY(begin: 0.3, end: 0),
-
-          const SizedBox(height: 8),
-
-          Text(
-            '"Some feelings are better experienced than read."',
-            textAlign: TextAlign.center,
-            style: GoogleFonts.dancingScript(
-              fontSize: 20,
-              color: LoveTheme.secondaryRose,
-              fontWeight: FontWeight.w600,
-            ),
-          ).animate().fadeIn(delay: 400.ms, duration: 800.ms),
-
-          const SizedBox(height: 48),
-
-          // Progress Glass Card
-          GlassCard(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      _statusText,
-                      style: GoogleFonts.poppins(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
-                        color: _isCompleted
-                            ? const Color(0xFF00F5D4)
-                            : Colors.white.withOpacity(0.9),
-                      ),
-                    ),
-                    Text(
-                      '${(_progress * 100).toInt()}%',
-                      style: GoogleFonts.firaCode(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        color: LoveTheme.secondaryRose,
-                      ),
+        // Main Content
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // Animated Heart Logo
+              Container(
+                width: 110,
+                height: 110,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: LoveTheme.buttonGradient,
+                  boxShadow: [
+                    BoxShadow(
+                      color: LoveTheme.primaryNeonPink.withOpacity(0.6),
+                      blurRadius: 30,
+                      spreadRadius: 8,
                     ),
                   ],
                 ),
-                const SizedBox(height: 16),
-                LinearPercentIndicator(
-                  lineHeight: 10.0,
-                  percent: _progress.clamp(0.0, 1.0),
-                  backgroundColor: Colors.white10,
-                  progressColor: _isCompleted
-                      ? const Color(0xFF00F5D4)
-                      : LoveTheme.primaryNeonPink,
-                  barRadius: const Radius.circular(10),
-                  padding: EdgeInsets.zero,
-                  animation: false,
+                child: const Icon(
+                  Icons.favorite_rounded,
+                  size: 60,
+                  color: Colors.white,
                 ),
-              ],
-            ),
-          ).animate().fadeIn(delay: 600.ms),
-
-          const SizedBox(height: 40),
-
-          // Continue Button
-          AnimatedOpacity(
-            duration: const Duration(milliseconds: 500),
-            opacity: _isCompleted ? 1.0 : 0.0,
-            child: IgnorePointer(
-              ignoring: !_isCompleted,
-              child: ElevatedButton(
-                onPressed: widget.onContinue,
-                style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.zero,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
+              )
+                  .animate(onPlay: (controller) => controller.repeat(reverse: true))
+                  .scale(
+                    duration: 1200.ms,
+                    begin: const Offset(0.95, 0.95),
+                    end: const Offset(1.08, 1.08),
+                    curve: Curves.easeInOut,
                   ),
-                  elevation: 10,
-                  shadowColor: LoveTheme.primaryNeonPink.withOpacity(0.5),
+
+              const SizedBox(height: 36),
+
+              // Title & Subtitle
+              Text(
+                'Secret Message',
+                style: GoogleFonts.outfit(
+                  fontSize: 34,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  letterSpacing: 1.5,
                 ),
-                child: Ink(
-                  decoration: BoxDecoration(
-                    gradient: LoveTheme.buttonGradient,
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 36, vertical: 16),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
+              ).animate().fadeIn(duration: 800.ms).slideY(begin: 0.3, end: 0),
+
+              const SizedBox(height: 8),
+
+              Text(
+                '"Some feelings are better experienced than read."',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.dancingScript(
+                  fontSize: 20,
+                  color: LoveTheme.secondaryRose,
+                  fontWeight: FontWeight.w600,
+                ),
+              ).animate().fadeIn(delay: 400.ms, duration: 800.ms),
+
+              const SizedBox(height: 48),
+
+              // Progress Glass Card
+              GlassCard(
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Continue to App 🚀',
+                          _statusText,
                           style: GoogleFonts.poppins(
-                            fontSize: 17,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
+                            color: _isCompleted
+                                ? const Color(0xFF00F5D4)
+                                : Colors.white.withOpacity(0.9),
                           ),
                         ),
-                        const SizedBox(width: 8),
-                        const Icon(
-                          Icons.arrow_forward_rounded,
-                          color: Colors.white,
+                        Text(
+                          '${(_progress * 100).toInt()}%',
+                          style: GoogleFonts.firaCode(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: LoveTheme.secondaryRose,
+                          ),
                         ),
                       ],
+                    ),
+                    const SizedBox(height: 16),
+                    LinearPercentIndicator(
+                      lineHeight: 10.0,
+                      percent: _progress.clamp(0.0, 1.0),
+                      backgroundColor: Colors.white10,
+                      progressColor: _isCompleted
+                          ? const Color(0xFF00F5D4)
+                          : LoveTheme.primaryNeonPink,
+                      barRadius: const Radius.circular(10),
+                      padding: EdgeInsets.zero,
+                      animation: false,
+                    ),
+                  ],
+                ),
+              ).animate().fadeIn(delay: 600.ms),
+
+              const SizedBox(height: 40),
+
+              // Continue Button
+              AnimatedOpacity(
+                duration: const Duration(milliseconds: 500),
+                opacity: _isCompleted ? 1.0 : 0.0,
+                child: IgnorePointer(
+                  ignoring: !_isCompleted,
+                  child: ElevatedButton(
+                    onPressed: widget.onContinue,
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.zero,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      elevation: 10,
+                      shadowColor: LoveTheme.primaryNeonPink.withOpacity(0.5),
+                    ),
+                    child: Ink(
+                      decoration: BoxDecoration(
+                        gradient: LoveTheme.buttonGradient,
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 36, vertical: 16),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              'Continue to App 🚀',
+                              style: GoogleFonts.poppins(
+                                fontSize: 17,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            const Icon(
+                              Icons.arrow_forward_rounded,
+                              color: Colors.white,
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

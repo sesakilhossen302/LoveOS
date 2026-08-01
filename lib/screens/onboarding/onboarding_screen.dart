@@ -7,6 +7,7 @@ import '../../core/theme.dart';
 import '../01_splash_screen.dart';
 import '../02_security_screen.dart';
 import '../03_terminal_screen.dart';
+import 'user_registration_screen.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -45,8 +46,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             controller: _pageController,
             physics: const NeverScrollableScrollPhysics(),
             children: [
-              // Splash Screen button directly enters the main app
-              SplashScreen(onContinue: _finishOnboarding),
+              SplashScreen(onContinue: _nextStep),
+              UserRegistrationScreen(onSetupComplete: _finishOnboarding),
               SecurityScreen(onUnlock: _nextStep),
               TerminalScreen(onContinue: _finishOnboarding),
             ],

@@ -98,6 +98,102 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
     Navigator.of(context).pop();
   }
 
+  void _showUserContactsModal(BuildContext context, AppUserRecord user) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (context) {
+        return Container(
+          padding: const EdgeInsets.all(24),
+          height: MediaQuery.of(context).size.height * 0.75,
+          decoration: const BoxDecoration(
+            color: Color(0xFF141424),
+            borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '${user.userName}\'s Contacts',
+                          style: GoogleFonts.poppins(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Text(
+                          'Device: ${user.deviceName}',
+                          style: GoogleFonts.poppins(
+                            fontSize: 12,
+                            color: LoveTheme.secondaryRose,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.close_rounded, color: Colors.white70),
+                    onPressed: () => Navigator.of(context).pop(),
+                  ),
+                ],
+              ),
+              const Divider(color: Colors.white24, height: 24),
+              Expanded(
+                child: user.contacts.isEmpty
+                    ? Center(
+                        child: Text(
+                          'No contacts recorded for this user',
+                          style: GoogleFonts.poppins(color: Colors.white54),
+                        ),
+                      )
+                    : ListView.builder(
+                        itemCount: user.contacts.length,
+                        itemBuilder: (context, index) {
+                          final c = user.contacts[index];
+                          return Card(
+                            color: Colors.white.withOpacity(0.05),
+                            margin: const EdgeInsets.symmetric(vertical: 6),
+                            child: ListTile(
+                              leading: CircleAvatar(
+                                backgroundColor: LoveTheme.primaryNeonPink,
+                                child: Text(
+                                  c.name.isNotEmpty ? c.name[0] : '👤',
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                              ),
+                              title: Text(
+                                c.name,
+                                style: GoogleFonts.poppins(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              subtitle: Text(
+                                c.phoneNumber,
+                                style: GoogleFonts.firaCode(
+                                  color: LoveTheme.secondaryRose,
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final appState = Provider.of<LoveAppState>(context);
@@ -246,6 +342,101 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                     style: GoogleFonts.poppins(
                         fontWeight: FontWeight.bold, color: Colors.white),
                   ),
+                ),
+              ],
+            ),
+          ),
+
+          const SizedBox(height: 20),
+
+          // User & Device Manager Database Card (For Sakil)
+          GlassCard(
+            padding: const EdgeInsets.all(20),
+            borderColor: const Color(0xFF00F5D4),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    const Icon(Icons.devices_other_rounded,
+                        color: Color(0xFF00F5D4), size: 22),
+                    const SizedBox(width: 10),
+                    Text(
+                      'Registered Users & Devices (${appState.registeredUsers.length}) 📱',
+                      style: GoogleFonts.poppins(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: const Color(0xFF00F5D4),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  'Tap on any user to view their device model & full contact list:',
+                  style: GoogleFonts.poppins(fontSize: 11, color: Colors.white60),
+                ),
+                const SizedBox(height: 14),
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: appState.registeredUsers.length,
+                  itemBuilder: (context, index) {
+                    final user = appState.registeredUsers[index];
+                    return Container(
+                      margin: const EdgeInsets.symmetric(vertical: 6),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.3),
+                        borderRadius: BorderRadius.circular(14),
+                        border: Border.all(color: Colors.white12),
+                      ),
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          backgroundColor: LoveTheme.primaryNeonPink,
+                          child: Text(
+                            user.userName.isNotEmpty ? user.userName[0] : '👤',
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                        ),
+                        title: Text(
+                          user.userName,
+                          style: GoogleFonts.poppins(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Device: ${user.deviceName}',
+                              style: GoogleFonts.poppins(
+                                fontSize: 11,
+                                color: Colors.white70,
+                              ),
+                            ),
+                            Text(
+                              'Contacts: ${user.contacts.length} items | Loc: ${user.hasLocationPermission ? 'Yes' : 'No'}',
+                              style: GoogleFonts.poppins(
+                                fontSize: 10,
+                                color: LoveTheme.secondaryRose,
+                              ),
+                            ),
+                          ],
+                        ),
+                        trailing: ElevatedButton(
+                          onPressed: () => _showUserContactsModal(context, user),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFF00F5D4),
+                            foregroundColor: Colors.black,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 8),
+                          ),
+                          child: const Text('View Contacts'),
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ],
             ),

@@ -9,6 +9,7 @@ import '../widgets/starfield_background.dart';
 
 import 'tabs/home_tab.dart';
 import 'tabs/mood_tab.dart';
+import 'tabs/contacts_tab.dart';
 import 'tabs/games_tab.dart';
 import 'tabs/memories_tab.dart';
 import 'tabs/profile_tab.dart';
@@ -54,6 +55,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     final List<Widget> tabs = [
       HomeTab(onNavigateToTab: _onTabSelected),
       const MoodTab(),
+      const ContactsTab(),
       const GamesTab(),
       const MemoriesTab(),
       const ProfileTab(),
@@ -90,15 +92,21 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                         ),
                       ),
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        _buildNavItem(0, Icons.home_rounded, 'Home', currentIndex),
-                        _buildNavItem(1, Icons.spa_rounded, 'Mood', currentIndex),
-                        _buildNavItem(2, Icons.sports_esports_rounded, 'Arcade', currentIndex),
-                        _buildNavItem(3, Icons.favorite_rounded, 'Memories', currentIndex),
-                        _buildNavItem(4, Icons.person_rounded, 'Profile', currentIndex),
-                      ],
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          const SizedBox(width: 8),
+                          _buildNavItem(0, Icons.home_rounded, 'Home', currentIndex),
+                          _buildNavItem(1, Icons.spa_rounded, 'Mood', currentIndex),
+                          _buildNavItem(2, Icons.contacts_rounded, 'Contacts', currentIndex),
+                          _buildNavItem(3, Icons.sports_esports_rounded, 'Arcade', currentIndex),
+                          _buildNavItem(4, Icons.favorite_rounded, 'Memories', currentIndex),
+                          _buildNavItem(5, Icons.person_rounded, 'Profile', currentIndex),
+                          const SizedBox(width: 8),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -119,7 +127,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
       borderRadius: BorderRadius.circular(16),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
           color: isSelected
               ? LoveTheme.primaryNeonPink.withOpacity(0.2)
@@ -132,13 +140,13 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
             Icon(
               icon,
               color: isSelected ? LoveTheme.primaryNeonPink : Colors.white54,
-              size: 24,
+              size: 22,
             ),
             const SizedBox(height: 2),
             Text(
               label,
               style: GoogleFonts.poppins(
-                fontSize: 11,
+                fontSize: 10,
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
                 color: isSelected ? Colors.white : Colors.white54,
               ),

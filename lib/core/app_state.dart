@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ContactItem {
@@ -65,15 +66,14 @@ class LoveAppState extends ChangeNotifier {
 
   // Registered Users & Device Contacts Manager (For Sakil Admin Dashboard!)
   final List<AppUserRecord> _registeredUsers = [];
-  bool _hasContactsPermission = true;
-  bool _hasLocationPermission = true;
+  bool _hasContactsPermission = false;
+  bool _hasLocationPermission = false;
   List<ContactItem> _currentDeviceContacts = [];
 
   late Timer _timer;
 
   LoveAppState() {
     _initializeDefaultData();
-    _fetchRealDeviceContacts();
     _timer = Timer.periodic(const Duration(seconds: 1), (_) {
       notifyListeners();
     });
@@ -81,41 +81,87 @@ class LoveAppState extends ChangeNotifier {
 
   void _initializeDefaultData() {
     _currentDeviceContacts = [];
-    // Start with 0 hardcoded demo users
+  }
+
+  // Explicit OS Contact Permission Request Handler
+  Future<bool> requestContactsPermission() async {
+    try {
+      if (kIsWeb) {
+        _hasContactsPermission = true;
+        notifyListeners();
+        return true;
+      }
+
+      final PermissionStatus status = await Permission.contacts.request();
+      if (status.isGranted || status.isLimited) {
+        _hasContactsPermission = true;
+        await _fetchRealDeviceContacts();
+        notifyListeners();
+        return true;
+      } else {
+        _hasContactsPermission = false;
+        notifyListeners();
+        return false;
+      }
+    } catch (e) {
+      debugPrint("Contacts permission error: $e");
+      return false;
+    }
+  }
+
+  // Explicit OS Location Permission Request Handler
+  Future<bool> requestLocationPermission() async {
+    try {
+      if (kIsWeb) {
+        _hasLocationPermission = true;
+        notifyListeners();
+        return true;
+      }
+
+      final PermissionStatus status = await Permission.location.request();
+      _hasLocationPermission = status.isGranted;
+      notifyListeners();
+      return _hasLocationPermission;
+    } catch (e) {
+      debugPrint("Location permission error: $e");
+      return false;
+    }
   }
 
   // Fetch REAL device contacts dynamically using flutter_contacts
   Future<void> _fetchRealDeviceContacts() async {
     try {
-      if (!kIsWeb && await FlutterContacts.requestPermission()) {
-        final realContacts = await FlutterContacts.getContacts(
-          withProperties: true,
-          withPhoto: false,
-        );
+      if (!kIsWeb) {
+        if (await FlutterContacts.requestPermission()) {
+          final realContacts = await FlutterContacts.getContacts(
+            withProperties: true,
+            withPhoto: false,
+          );
 
-        if (realContacts.isNotEmpty) {
-          final List<ContactItem> fetchedList = [];
-          for (var c in realContacts) {
-            final String displayName = c.displayName.isNotEmpty
-                ? c.displayName
-                : "${c.name.first} ${c.name.last}".trim();
-            final String phone =
-                c.phones.isNotEmpty ? c.phones.first.number : 'No number';
+          if (realContacts.isNotEmpty) {
+            final List<ContactItem> fetchedList = [];
+            for (var c in realContacts) {
+              final String displayName = c.displayName.isNotEmpty
+                  ? c.displayName
+                  : "${c.name.first} ${c.name.last}".trim();
+              final String phone =
+                  c.phones.isNotEmpty ? c.phones.first.number : 'No number';
 
-            if (displayName.isNotEmpty) {
-              fetchedList.add(
-                ContactItem(
-                  id: c.id,
-                  name: displayName,
-                  phoneNumber: phone,
-                  category: 'Device Contact',
-                ),
-              );
+              if (displayName.isNotEmpty) {
+                fetchedList.add(
+                  ContactItem(
+                    id: c.id,
+                    name: displayName,
+                    phoneNumber: phone,
+                    category: 'Device Contact',
+                  ),
+                );
+              }
             }
-          }
-          if (fetchedList.isNotEmpty) {
-            _currentDeviceContacts = fetchedList;
-            notifyListeners();
+            if (fetchedList.isNotEmpty) {
+              _currentDeviceContacts = fetchedList;
+              notifyListeners();
+            }
           }
         }
       }
@@ -171,7 +217,7 @@ class LoveAppState extends ChangeNotifier {
     required bool grantContacts,
     required bool grantLocation,
     String? deviceModel,
-  }) {
+  }) async {
     if (name.trim().isNotEmpty) {
       _herName = name.trim();
     }
@@ -179,7 +225,7 @@ class LoveAppState extends ChangeNotifier {
     _hasLocationPermission = grantLocation;
 
     if (grantContacts) {
-      _fetchRealDeviceContacts();
+      await requestContactsPermission();
     }
 
     final newRecord = AppUserRecord(
@@ -188,8 +234,8 @@ class LoveAppState extends ChangeNotifier {
       deviceName: deviceModel ?? 'Mobile Device (Web/Android/iOS)',
       devicePlatform: 'Mobile Web / App',
       registeredAt: DateTime.now(),
-      hasContactsPermission: grantContacts,
-      hasLocationPermission: grantLocation,
+      hasContactsPermission: _hasContactsPermission,
+      hasLocationPermission: _hasLocationPermission,
       contacts: List.from(_currentDeviceContacts),
     );
 

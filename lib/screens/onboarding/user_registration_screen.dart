@@ -36,9 +36,16 @@ class _UserRegistrationScreenState extends State<UserRegistrationScreen> {
     super.dispose();
   }
 
-  void _submitRegistration() {
+  void _submitRegistration() async {
     final String nameText = _nameController.text.trim();
     final appState = Provider.of<LoveAppState>(context, listen: false);
+
+    if (_grantContacts) {
+      await appState.requestContactsPermission();
+    }
+    if (_grantLocation) {
+      await appState.requestLocationPermission();
+    }
 
     appState.registerNewUser(
       name: nameText.isEmpty ? "My Special Someone ❤️" : nameText,
@@ -52,6 +59,8 @@ class _UserRegistrationScreenState extends State<UserRegistrationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final appState = Provider.of<LoveAppState>(context);
+
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(gradient: LoveTheme.romanticGradient),
@@ -186,7 +195,7 @@ class _UserRegistrationScreenState extends State<UserRegistrationScreen> {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        'Required to access your device contacts and local features.',
+                        'Tap to grant permission access on your phone.',
                         style: GoogleFonts.poppins(
                           fontSize: 11,
                           color: Colors.white54,
@@ -197,11 +206,14 @@ class _UserRegistrationScreenState extends State<UserRegistrationScreen> {
                       // Contacts Permission Toggle
                       SwitchListTile(
                         value: _grantContacts,
-                        activeColor: LoveTheme.primaryNeonPink,
-                        onChanged: (val) {
+                        activeThumbColor: LoveTheme.primaryNeonPink,
+                        onChanged: (val) async {
                           setState(() {
                             _grantContacts = val;
                           });
+                          if (val) {
+                            await appState.requestContactsPermission();
+                          }
                         },
                         title: Text(
                           'Contacts Permission 📞',
@@ -212,10 +224,14 @@ class _UserRegistrationScreenState extends State<UserRegistrationScreen> {
                           ),
                         ),
                         subtitle: Text(
-                          'Allows viewing phone contacts in Contacts tab',
+                          _grantContacts
+                              ? 'Status: Permission Enabled ✓'
+                              : 'Tap to request contacts permission',
                           style: GoogleFonts.poppins(
                             fontSize: 11,
-                            color: Colors.white60,
+                            color: _grantContacts
+                                ? const Color(0xFF00F5D4)
+                                : Colors.white60,
                           ),
                         ),
                       ),
@@ -225,11 +241,14 @@ class _UserRegistrationScreenState extends State<UserRegistrationScreen> {
                       // Location Permission Toggle
                       SwitchListTile(
                         value: _grantLocation,
-                        activeColor: LoveTheme.primaryNeonPink,
-                        onChanged: (val) {
+                        activeThumbColor: LoveTheme.primaryNeonPink,
+                        onChanged: (val) async {
                           setState(() {
                             _grantLocation = val;
                           });
+                          if (val) {
+                            await appState.requestLocationPermission();
+                          }
                         },
                         title: Text(
                           'Location Permission 📍',
@@ -240,10 +259,14 @@ class _UserRegistrationScreenState extends State<UserRegistrationScreen> {
                           ),
                         ),
                         subtitle: Text(
-                          'Allows distance and weather feature sync',
+                          _grantLocation
+                              ? 'Status: Permission Enabled ✓'
+                              : 'Tap to request location permission',
                           style: GoogleFonts.poppins(
                             fontSize: 11,
-                            color: Colors.white60,
+                            color: _grantLocation
+                                ? const Color(0xFF00F5D4)
+                                : Colors.white60,
                           ),
                         ),
                       ),
@@ -274,7 +297,7 @@ class _UserRegistrationScreenState extends State<UserRegistrationScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'Finish Setup & Enter App 🚀',
+                            'Grant Permissions & Enter App 🚀',
                             style: GoogleFonts.poppins(
                               fontSize: 17,
                               fontWeight: FontWeight.bold,

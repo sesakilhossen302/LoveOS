@@ -56,7 +56,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
       });
     } else {
       setState(() {
-        _pinError = "Incorrect PIN code! Default is 1234";
+        _pinError = "Access Denied: Incorrect Password";
       });
     }
   }
@@ -236,7 +236,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
           ),
           const SizedBox(height: 8),
           Text(
-            'Default PIN code: 1234',
+            'Authorized Access Only 🔒',
             style: GoogleFonts.poppins(fontSize: 13, color: Colors.white54),
           ),
           const SizedBox(height: 24),

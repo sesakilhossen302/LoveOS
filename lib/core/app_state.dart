@@ -270,7 +270,7 @@ class LoveAppState extends ChangeNotifier {
   }
 
   bool authenticateAdmin(String pin) {
-    if (pin == "1234") {
+    if (pin == "sakil@123") {
       _isAdminAuthenticated = true;
       notifyListeners();
       return true;

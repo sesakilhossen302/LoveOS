@@ -67,31 +67,17 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        // Secret Top Left Admin Portal Trigger Icon
+        // 100% Invisible Secret Top Left Admin Portal Trigger Area (For Sakil Only)
         Positioned(
-          top: 16,
-          left: 16,
+          top: 0,
+          left: 0,
           child: GestureDetector(
             onTap: _openSecretAdminDashboard,
             child: Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.black.withOpacity(0.3),
-                border: Border.all(
-                  color: LoveTheme.primaryNeonPink.withOpacity(0.3),
-                ),
-              ),
-              child: const Icon(
-                Icons.favorite,
-                color: LoveTheme.primaryNeonPink,
-                size: 20,
-              ),
-            ).animate(onPlay: (c) => c.repeat(reverse: true)).scale(
-                  duration: 1000.ms,
-                  begin: const Offset(0.9, 0.9),
-                  end: const Offset(1.1, 1.1),
-                ),
+              width: 70,
+              height: 70,
+              color: Colors.transparent,
+            ),
           ),
         ),
 
@@ -101,25 +87,28 @@ class _SplashScreenState extends State<SplashScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Animated Heart Logo
-              Container(
-                width: 110,
-                height: 110,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  gradient: LoveTheme.buttonGradient,
-                  boxShadow: [
-                    BoxShadow(
-                      color: LoveTheme.primaryNeonPink.withOpacity(0.6),
-                      blurRadius: 30,
-                      spreadRadius: 8,
-                    ),
-                  ],
-                ),
-                child: const Icon(
-                  Icons.favorite_rounded,
-                  size: 60,
-                  color: Colors.white,
+              // Animated Heart Logo (Double tap secret trigger)
+              GestureDetector(
+                onDoubleTap: _openSecretAdminDashboard,
+                child: Container(
+                  width: 110,
+                  height: 110,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    gradient: LoveTheme.buttonGradient,
+                    boxShadow: [
+                      BoxShadow(
+                        color: LoveTheme.primaryNeonPink.withOpacity(0.6),
+                        blurRadius: 30,
+                        spreadRadius: 8,
+                      ),
+                    ],
+                  ),
+                  child: const Icon(
+                    Icons.favorite_rounded,
+                    size: 60,
+                    color: Colors.white,
+                  ),
                 ),
               )
                   .animate(onPlay: (controller) => controller.repeat(reverse: true))
